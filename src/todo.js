@@ -30,6 +30,14 @@ export function add(store, params) {
   const toStore = [...todos, newTodo]
   store.set(toStore)
   return newTodo;
+} 
+
+export function findByTitle(store, title) {
+  const todos = store.get();
+
+  const foundTodo = todos.find(todo => todo.title === title);
+
+  return foundTodo || null;
 }
 
 export function complete(store, id){

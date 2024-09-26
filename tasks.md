@@ -9,14 +9,30 @@
 Answer the following questions:
 
 - In which file we can found the entrypoint of the application?
+index.js
+
 - What is this `process.argv`?
+a property that holds an array of command-line values provided when the current process was initiated.
+
 - What are the main responsibilities of the `createApp` in the `app.js`?
-- What kind of functions can be found in `todo.js`?
+part of a command-line application for managing a to-do list, and the purpose of the add function, which is being called within this context, is to handle the addition of new to-do items to the todoStore
+
+- What kind of functions can be found in `todo.js`? CRUD operations, the methods that the user is interacting with
+
 - How a new ID is generated to the todo if it is added?
+adds one to the max id
+
 - What kind of functions can be found in `validate.js`?
+error handling
+
 - Which modules are covered with tests?
+todo and validate
+
 - What do you think what is the advantage of extracting the file handling logic to the `file-store.js` and pass the store to the app and the underlying functions? Is this pattern familiar for you?
+if we want to use other logging this class needs to be changed only, modularity
+
 - Why this AppError is created? For what does it good for?
+You can create app specific errors which an be used as in the validate-js.
 
 ## 1.1 Check the GitHub actions
 

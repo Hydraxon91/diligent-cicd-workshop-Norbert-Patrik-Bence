@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { add, format, formatList, list, findByTitle } from './todo.js';
+import { add, format, formatList, list, findByTitle, complete  } from './todo.js';
 
 function createMockStore(data) {
   return {
@@ -167,6 +167,19 @@ describe('findByTitle', () => {
     expect(current).toBeNull();
   });
 });
+
+describe('complete', () =>{
+  it('should mark a todo as complete when given a valid numeric ID', () => {
+    const stored = [{ id: 1, title: 'Todo 1', done: false }];
+    const mockStore = createMockStore(stored);
+    
+    const current = complete(mockStore, 1);
+    
+    expect(current).toStrictEqual({ id: 1, title: 'Todo 1', done: true });
+    expect(mockStore.set.mock.calls[0][0])
+      .toStrictEqual([{ id: 1, title: 'Todo 1', done: true }]);
+  });
+})
 
 
 

@@ -1,7 +1,7 @@
-import { list, formatList, format, add } from "./todo.js";
-import { display } from "./display.js";
-import { AppError } from "./app-error.js";
-import { validateAddParams } from "./validate.js";
+import { list, formatList, format, add, complete } from './todo.js';
+import { display } from './display.js';
+import { AppError } from './app-error.js';
+import { validateAddParams } from './validate.js';
 
 export function createApp(todoStore, args) {
   const [, , command, ...params] = args;
@@ -28,7 +28,15 @@ export function createApp(todoStore, args) {
         display(["No todo found with that title."]);
       }
       break;
-
+    case 'complete':
+      const [idParam] = params;
+      const id = Number(idParam);
+      if (isNaN(id)) {
+        throw new AppError('The ID must be a numeric value.');
+      }
+      const completed = complete(todoStore, id)
+      display(['Todo completed:', format(completed)]);
+      break;
     default:
       throw new AppError(`Unknown command: ${command}`);
   }

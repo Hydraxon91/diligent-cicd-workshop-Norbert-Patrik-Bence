@@ -39,3 +39,12 @@ export function findByTitle(store, title) {
 
   return foundTodo || null;
 }
+
+export function complete(store, id){
+  const todos = store.get()
+  const todo = todos.find(t => t.id === id);
+
+  todo.done = true;
+  store.set(todos)
+  return todo;
+}

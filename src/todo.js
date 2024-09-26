@@ -1,5 +1,5 @@
 export function format(todo) {
-  return `${todo.id} - [${todo.done ? '✅': ' '}] ${todo.title}`;
+  return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
 
 export function formatList(todos) {
@@ -30,4 +30,12 @@ export function add(store, params) {
   const toStore = [...todos, newTodo]
   store.set(toStore)
   return newTodo;
+} 
+
+export function findByTitle(store, title) {
+  const todos = store.get();
+
+  const foundTodo = todos.find(todo => todo.title === title);
+
+  return foundTodo || null;
 }

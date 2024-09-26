@@ -31,3 +31,12 @@ export function add(store, params) {
   store.set(toStore)
   return newTodo;
 }
+
+export function complete(store, id){
+  const todos = store.get()
+  const todo = todos.find(t => t.id === id);
+
+  todo.done = true;
+  store.set(todos)
+  return todo;
+}

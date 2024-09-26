@@ -1,5 +1,3 @@
-import { AppError } from "./app-error";
-
 export function format(todo) {
   return `${todo.id} - [${todo.done ? 'x': ' '}] ${todo.title}`;
 }
@@ -34,15 +32,11 @@ export function add(store, params) {
   return newTodo;
 }
 
-export function complete(id){
+export function complete(store, id){
   const todos = store.get()
   const todo = todos.find(t => t.id === id);
 
-  if (!todo){
-    throw new AppError(`Todo with ID ${id} not found.`);
-  }
-
   todo.done = true;
-  store.set(toStore)
+  store.set(todos)
   return todo;
 }

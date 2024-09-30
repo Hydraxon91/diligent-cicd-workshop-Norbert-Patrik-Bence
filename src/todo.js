@@ -72,8 +72,8 @@ export function findByStatus(store, status) {
 
 export function deleteTodo(store, id) {
   const todos = store.get();
-  const todoIndex = todos.findIndex((t) => t.id === id);
-
+  const todoIndex = todos.findIndex((t) => t.id === +id);
+  
   if (todoIndex===-1) {
     throw new AppError(`Todo with id: ${id}, is not found!`);
   }

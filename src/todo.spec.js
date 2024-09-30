@@ -6,7 +6,7 @@ import {
   format,
   formatList,
   list,
-  complete,
+  completeTodo,
   findByStatus,
 } from './todo.js';
 import { AppError } from './app-error.js';
@@ -215,12 +215,22 @@ describe('complete', () => {
     const stored = [{ id: 1, title: 'Todo 1', done: false }];
     const mockStore = createMockStore(stored);
 
-    const current = complete(mockStore, 1);
+    const current = completeTodo(mockStore, 1);
 
     expect(current).toStrictEqual({ id: 1, title: 'Todo 1', done: true });
     expect(mockStore.set.mock.calls[0][0]).toStrictEqual([
       { id: 1, title: 'Todo 1', done: true },
     ]);
+  });
+
+  it('should return apperror if Id not found', () =>{
+    const mockStore = createMockStore([]);
+    const id = 1;
+
+    expect(() => completeTodo(mockStore, id)).toThrow(AppError);
+    expect(() => completeTodo(mockStore, id)).toThrowError(
+      `Todo with id: ${id}, is not found!`
+    );
   });
 });
 

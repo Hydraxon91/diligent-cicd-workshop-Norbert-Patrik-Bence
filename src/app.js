@@ -7,6 +7,7 @@ import {
   findById,
   findByTitle,
   findByStatus,
+  editTodoTitle,
 } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
@@ -15,6 +16,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateEditTitleParams,
 } from './validate.js';
 
 export function createApp(todoStore, args) {
@@ -64,7 +66,13 @@ export function createApp(todoStore, args) {
       const todosList = findByStatus(todoStore, validatedStatusParam);
       console.log(todosList);
       break;
+    
+    case 'edit-title':
+      const validatedEditParams = validateEditTitleParams(params);
+      editTodoTitle(todoStore, validatedEditParams);
 
+      display(['Todo title updated successfully'])
+      break;
     default:
       throw new AppError(`Unknown command: ${command}`);
   }

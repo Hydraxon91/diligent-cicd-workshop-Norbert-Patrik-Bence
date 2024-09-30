@@ -69,3 +69,15 @@ export function findByStatus(store, status) {
   const isDone = status === 'done';
   return todos.filter((todo) => todo.done === isDone);
 }
+
+export function deleteTodo(store, id) {
+  const todos = store.get();
+  const todoIndex = todos.findIndex((t) => t.id === id);
+
+  if (todoIndex===-1) {
+    throw new AppError(`Todo with id: ${id}, is not found!`);
+  }
+
+  todos.splice(todoIndex, 1);
+  store.set(todos);
+}

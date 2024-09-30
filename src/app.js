@@ -6,6 +6,7 @@ import {
   complete,
   findById,
   findByTitle,
+  findByStatus,
 } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
@@ -13,6 +14,7 @@ import {
   validateAddParams,
   validateFindByIdParam,
   validateFindByTitleParam,
+  validateStatusParam,
 } from './validate.js';
 
 export function createApp(todoStore, args) {
@@ -55,6 +57,12 @@ export function createApp(todoStore, args) {
       }
       const completed = complete(todoStore, id);
       display(['Todo completed:', format(completed)]);
+      break;
+
+    case 'find-by-status':
+      const validatedStatusParam = validateStatusParam(params);
+      const todosList = findByStatus(todoStore, validatedStatusParam);
+      console.log(todosList);
       break;
 
     default:

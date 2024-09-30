@@ -46,3 +46,13 @@ export function validateStatusParam(params) {
 
   return statusParam;
 }
+
+export function validateEditTitleParams(params) {
+  const [id, newTitle] = params;
+
+  // Reusing the validateFindByIdParam and validateAddParams functions
+  validateFindByIdParam(id);
+  validateAddParams([newTitle]);
+
+  return params;
+}

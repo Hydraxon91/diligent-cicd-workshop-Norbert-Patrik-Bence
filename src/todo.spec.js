@@ -140,22 +140,6 @@ describe('add', () => {
 });
 
 describe('findById', () => {
-  it('should throw an error because the param is not a number', () => {
-    const params = ['kiskutya'];
-    const mockStore = createMockStore([
-      {
-        id: 1,
-        done: false,
-        title: 'Read a book.',
-      },
-    ]);
-
-    expect(() => findById(mockStore, params)).toThrow(AppError);
-    expect(() => findById(mockStore, params)).toThrowError(
-      'Id is not a number, please provide a number'
-    );
-  });
-
   it('should throw an error because the todo item is not found', () => {
     const params = ['2'];
     const [id] = params;

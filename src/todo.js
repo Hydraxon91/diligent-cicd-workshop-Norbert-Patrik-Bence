@@ -36,14 +36,10 @@ export function add(store, params) {
 
 export function findById(store, params) {
   const [id] = params;
-  const idIsNotNumber = isNaN(+id);
-
-  if (idIsNotNumber) {
-    throw new AppError('Id is not a number, please provide a number');
-  }
   const todoList = store.get();
 
   const matchingTodoItem = todoList.find((todo) => todo.id === +id);
+
   if (!matchingTodoItem) {
     throw new AppError(`Todo with id: ${id}, is not found!`);
   }
@@ -66,4 +62,10 @@ export function complete(store, id) {
   todo.done = true;
   store.set(todos);
   return todo;
+}
+
+export function findByStatus(store, status) {
+  const todos = store.get();
+  const isDone = status === 'done';
+  return todos.filter((todo) => todo.done === isDone);
 }

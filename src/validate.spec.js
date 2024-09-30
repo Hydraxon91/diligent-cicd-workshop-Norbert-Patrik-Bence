@@ -3,6 +3,7 @@ import {
   validateAddParams,
   validateFindByIdParam,
   validateFindByTitleParam,
+  validateStatusParam,
 } from './validate';
 
 describe('validateAddParams', () => {
@@ -120,6 +121,35 @@ describe('validateFindByTitleParam', () => {
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
       'The title should be string and at least 3 charachter long!'
+    );
+  });
+});
+
+describe('validateStatusParam', () => {
+  it('should pass and return the original params with a valid status', () => {
+    const params = ['done'];
+    const expected = 'done';
+
+    const validated = validateStatusParam(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw an error if try with another status which not exist', () => {
+    const params = ['pending'];
+
+    expect(() => validateStatusParam(params)).toThrow(AppError);
+    expect(() => validateStatusParam(params)).toThrow(
+      "Status have to be 'done' or 'not-done' string!"
+    );
+  });
+
+  it('should throw an error when no params are given', () => {
+    const params = [];
+
+    expect(() => validateStatusParam(params)).toThrow(AppError);
+    expect(() => validateStatusParam(params)).toThrow(
+      "Status have to be 'done' or 'not-done' string!"
     );
   });
 });

@@ -33,3 +33,16 @@ export function validateFindByTitleParam(params) {
 
   return params;
 }
+
+export function validateStatusParam(params) {
+  const [statusParam] = params;
+  const validSearchStrings = ['done', 'not-done'];
+  if (
+    typeof statusParam !== 'string' ||
+    !validSearchStrings.includes(statusParam)
+  ) {
+    throw new AppError("Status have to be 'done' or 'not-done' string!");
+  }
+
+  return statusParam;
+}

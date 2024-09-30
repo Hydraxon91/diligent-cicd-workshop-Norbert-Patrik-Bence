@@ -46,3 +46,15 @@ export function validateStatusParam(params) {
 
   return statusParam;
 }
+
+export function validateDeleteTodoParams(params) {
+  if (params.length !== 1) {
+    throw new AppError('Give a numeric id as the only parameter in parenthesis.');
+  }
+
+  const [id] = params;
+  
+  validateFindByIdParam([id]);
+
+  return params;
+}

@@ -73,10 +73,10 @@ export function findByStatus(store, status) {
 export function editTodoTitle(store, params){
   const [id, newTitle] = params;
   const todos = store.get();
-  const todoItem = todos.find(todo => todo.id === +id); // Make sure id is a number
+  const todoItem = todos.find(todo => todo.id === +id);
   
   if (!todoItem) {
-    throw new AppError('Todo item not found');
+    throw new AppError(`Todo with id: ${id}, is not found!`);
   }
 
    todoItem.title = newTitle;

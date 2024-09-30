@@ -7,6 +7,7 @@ import {
   findById,
   findByTitle,
   findByStatus,
+  deleteTodo,
 } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
@@ -15,6 +16,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateDeleteTodoParams,
 } from './validate.js';
 
 export function createApp(todoStore, args) {
@@ -63,6 +65,12 @@ export function createApp(todoStore, args) {
       const validatedStatusParam = validateStatusParam(params);
       const todosList = findByStatus(todoStore, validatedStatusParam);
       console.log(todosList);
+      break;
+    
+    case 'delete':
+      const validatedDeleteParams = validateDeleteTodoParams(params);
+      deleteTodo(todoStore, validatedDeleteParams);
+      display(['Deletion completed']);
       break;
 
     default:

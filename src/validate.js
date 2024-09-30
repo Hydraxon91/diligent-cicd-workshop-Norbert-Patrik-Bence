@@ -48,10 +48,13 @@ export function validateStatusParam(params) {
 }
 
 export function validateEditTitleParams(params) {
+  if (params.length !== 2) {
+    throw new AppError('Give a numeric id and a title in parenthesis as the params.');
+  }
   const [id, newTitle] = params;
 
   // Reusing the validateFindByIdParam and validateAddParams functions
-  validateFindByIdParam(id);
+  validateFindByIdParam([id]);
   validateAddParams([newTitle]);
 
   return params;

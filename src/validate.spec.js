@@ -4,6 +4,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateEditTitleParams,
 } from './validate';
 
 describe('validateAddParams', () => {
@@ -150,6 +151,26 @@ describe('validateStatusParam', () => {
     expect(() => validateStatusParam(params)).toThrow(AppError);
     expect(() => validateStatusParam(params)).toThrow(
       "Status have to be 'done' or 'not-done' string!"
+    );
+  });
+});
+
+
+describe('validateEditTitleParams', () => {
+  it('should pass and return the original params with a valid status', () => {
+    const params = [1, "Test"];
+    const expected = [1, "Test"];
+
+    const validated = validateEditTitleParams(params)
+    expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are given', () => {
+    const params = [];
+
+    expect(() => validateEditTitleParams(params)).toThrow(AppError);
+    expect(() => validateEditTitleParams(params)).toThrow(
+      "Give a numeric id and a title in parenthesis as the params."
     );
   });
 });

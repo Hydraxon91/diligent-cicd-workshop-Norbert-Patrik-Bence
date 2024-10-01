@@ -223,6 +223,15 @@ describe('validateEditTitleParams', () => {
 
     expect(validated).toStrictEqual(expected);
   });
+
+  it('should throw AppError if wrong number of params given', () => {
+    const params = [1, 'Test', 1];
+
+    // Expect the function to throw an AppError when the number of params is incorrect
+    expect(() => {
+      validateEditTitleParams(params);
+    }).toThrow(AppError);
+  });
 });
 
 describe('validateDeleteTodoParams', () => {

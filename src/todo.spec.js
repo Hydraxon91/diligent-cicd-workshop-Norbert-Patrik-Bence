@@ -19,18 +19,69 @@ function createMockStore(data) {
 }
 
 describe('format', () => {
-  it('should format a not done todo', () => {
+  it('should format a not done todo without labels key', () => {
     const todo = { title: 'todo title', id: 1, done: false };
-    const expected = '1 - [ ] todo title';
+    const expected = '1 - [ ] (no labels) todo title';
 
     const current = format(todo);
 
     expect(current).toStrictEqual(expected);
   });
 
-  it('should format a done todo', () => {
+  it('should format a done todo without labels key', () => {
     const todo = { title: 'todo title', id: 1, done: true };
-    const expected = '1 - [x] todo title';
+    const expected = '1 - [x] (no labels) todo title';
+
+    const current = format(todo);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should format a not done todo with an empty labels array', () => {
+    const todo = {
+      title: 'todo title',
+      id: 1,
+      done: false,
+      labels: [],
+    };
+    const expected = '1 - [ ] (no labels) todo title';
+
+    const current = format(todo);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should format a done todo with an empty labels array', () => {
+    const todo = {
+      title: 'todo title',
+      id: 1,
+      done: true,
+      labels: [],
+    };
+    const expected = '1 - [x] (no labels) todo title';
+
+    const current = format(todo);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should format a not done todo with labels present', () => {
+    const todo = {
+      title: 'todo title',
+      id: 1,
+      done: false,
+      labels: ['urgent', 'home'],
+    };
+    const expected = '1 - [ ] (urgent, home) todo title';
+
+    const current = format(todo);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should format a done todo with labels present', () => {
+    const todo = { title: 'todo title', id: 1, done: true, labels: ['work'] };
+    const expected = '1 - [x] (work) todo title';
 
     const current = format(todo);
 
@@ -44,7 +95,10 @@ describe('formatList', () => {
       { title: 'todo title', id: 1, done: true },
       { title: 'todo title 2', id: 2, done: false },
     ];
-    const expected = ['1 - [x] todo title', '2 - [ ] todo title 2'];
+    const expected = [
+      '1 - [x] (no labels) todo title',
+      '2 - [ ] (no labels) todo title 2',
+    ];
 
     const current = formatList(todos);
 

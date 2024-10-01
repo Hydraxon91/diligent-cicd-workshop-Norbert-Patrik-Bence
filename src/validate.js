@@ -46,3 +46,17 @@ export function validateStatusParam(params) {
 
   return statusParam;
 }
+
+export function validateFindByLabelParam(params) {
+  if (params.length !== 1) {
+    throw new AppError('Give a label as the only parameter in parenthesis.');
+  }
+  
+  const [label] = params;
+  
+  if (typeof label !== 'string' || label.length === 0) {
+    throw new AppError('The label must be a non-zero length string.');
+  }
+  
+  return params;
+}

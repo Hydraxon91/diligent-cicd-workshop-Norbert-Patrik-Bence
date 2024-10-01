@@ -69,3 +69,8 @@ export function findByStatus(store, status) {
   const isDone = status === 'done';
   return todos.filter((todo) => todo.done === isDone);
 }
+
+export function findByLabel(store, label) {
+  const todos = store.get();
+  return todos.filter((todo) => todo.labels && todo.labels.includes(label));
+}

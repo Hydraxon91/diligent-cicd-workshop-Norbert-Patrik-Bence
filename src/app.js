@@ -59,11 +59,11 @@ export function createApp(todoStore, args) {
 
     case "complete":
       const [idParam] = params;
-      const id = Number(idParam);
+      const id = validateCompleteTodoParam([Number(idParam)]);
       if (isNaN(id)) {
         throw new AppError("The ID must be a numeric value.");
       }
-      const id = validateCompleteTodoParam(idParam)
+      // id = validateCompleteTodoParam(idParam)
       const completed = completeTodo(todoStore, id);
       display(['Todo completed:', format(completed)]);
       break;

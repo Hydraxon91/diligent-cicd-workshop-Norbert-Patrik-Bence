@@ -279,12 +279,16 @@ describe('find-by-status', () => {
 describe('editTodoTitle', () => {
   it('should edit the title if correct params are given', () => {
     const stored = [{ id: 1, title: 'Todo 1', done: false }];
-    const params = [1, "edited title"];
+    const params = [1, 'edited title'];
     const mockStore = createMockStore(stored);
 
     const current = editTodoTitle(mockStore, params);
 
-    expect(current).toStrictEqual({ id: 1, title: 'edited title', done: false });
+    expect(current).toStrictEqual({
+      id: 1,
+      title: 'edited title',
+      done: false,
+    });
     expect(mockStore.set.mock.calls[0][0]).toStrictEqual([
       { id: 1, title: 'edited title', done: false },
     ]);
@@ -292,7 +296,7 @@ describe('editTodoTitle', () => {
 
   it('should return AppError if todo with id not found', () => {
     const stored = [{ id: 1, title: 'Todo 1', done: false }];
-    const params = [2, "edited title"];
+    const params = [2, 'edited title'];
     const mockStore = createMockStore(stored);
 
     expect(() => editTodoTitle(mockStore, params)).toThrow(AppError);
@@ -300,6 +304,7 @@ describe('editTodoTitle', () => {
       'Todo with id: 2, is not found!'
     );
   });
+});
 
 describe('deleteTodo', () => {
   it('should delete a todo a valid numeric ID', () => {
@@ -308,7 +313,7 @@ describe('deleteTodo', () => {
 
     const current = deleteTodo(mockStore, 1);
 
-    expect(mockStore.set.mock.calls[0][0]).toStrictEqual([]); 
+    expect(mockStore.set.mock.calls[0][0]).toStrictEqual([]);
   });
 
   it('should throw AppError if todo with ID not found', () => {
@@ -317,6 +322,8 @@ describe('deleteTodo', () => {
 
     // Verify that the deleteTodo throws an error when ID is not found
     expect(() => deleteTodo(mockStore, 2)).toThrow(AppError);
-    expect(() => deleteTodo(mockStore, 2)).toThrowError('Todo with id: 2, is not found!');
+    expect(() => deleteTodo(mockStore, 2)).toThrowError(
+      'Todo with id: 2, is not found!'
+    );
   });
 });

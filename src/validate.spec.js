@@ -158,15 +158,12 @@ describe('validateStatusParam', () => {
 
 describe('validateEditTitleParams', () => {
   it('should pass and return the original params with a valid status', () => {
-    const params = [1, "Test"];
-    const expected = [1, "Test"];
+    const params = [1, 'Test'];
+    const expected = [1, 'Test'];
 
-    const validated = validateEditTitleParams(params)
-    
-    expect(() => validateEditTitleParams(params)).toThrow(AppError);
-    expect(() => validateEditTitleParams(params)).toThrow(
-      "Give a numeric id and a title in parenthesis as the params."
-    );
+    const validated = validateEditTitleParams(params);
+
+    expect(validated).toStrictEqual(expected);
   });
 });
 
@@ -175,8 +172,8 @@ describe('validateDeleteTodoParams', () => {
     const params = [1];
     const expected = [1];
 
-    const validated = validateDeleteTodoParams(params)
-    
+    const validated = validateDeleteTodoParams(params);
+
     expect(validated).toStrictEqual(expected);
   });
 
@@ -185,7 +182,7 @@ describe('validateDeleteTodoParams', () => {
 
     expect(() => validateDeleteTodoParams(params)).toThrow(AppError);
     expect(() => validateDeleteTodoParams(params)).toThrow(
-      "Give a numeric id as the only parameter in parenthesis."
+      'Give a numeric id as the only parameter in parenthesis.'
     );
   });
 });

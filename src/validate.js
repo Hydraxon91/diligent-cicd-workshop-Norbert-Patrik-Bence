@@ -56,6 +56,18 @@ export function validateEditTitleParams(params) {
   // Reusing the validateFindByIdParam and validateAddParams functions
   validateFindByIdParam([id]);
   validateAddParams([newTitle]);
+  
+  return params;
+}
+
+export function validateDeleteTodoParams(params) {
+  if (params.length !== 1) {
+    throw new AppError('Give a numeric id as the only parameter in parenthesis.');
+  }
+
+  const [id] = params;
+  
+  validateFindByIdParam([id]);
 
   return params;
 }

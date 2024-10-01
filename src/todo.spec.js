@@ -9,6 +9,7 @@ import {
   complete,
   findByStatus,
   editTodoTitle,
+  deleteTodo,
 } from './todo.js';
 import { AppError } from './app-error.js';
 
@@ -300,4 +301,22 @@ describe('editTodoTitle', () => {
     );
   });
 
+describe('deleteTodo', () => {
+  it('should delete a todo a valid numeric ID', () => {
+    const stored = [{ id: 1, title: 'Todo 1', done: false }];
+    const mockStore = createMockStore(stored);
+
+    const current = deleteTodo(mockStore, 1);
+
+    expect(mockStore.set.mock.calls[0][0]).toStrictEqual([]); 
+  });
+
+  it('should throw AppError if todo with ID not found', () => {
+    const stored = [{ id: 1, title: 'Todo 1', done: false }];
+    const mockStore = createMockStore(stored);
+
+    // Verify that the deleteTodo throws an error when ID is not found
+    expect(() => deleteTodo(mockStore, 2)).toThrow(AppError);
+    expect(() => deleteTodo(mockStore, 2)).toThrowError('Todo with id: 2, is not found!');
+  });
 });

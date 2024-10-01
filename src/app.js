@@ -7,6 +7,7 @@ import {
   findById,
   findByTitle,
   findByStatus,
+  editTodoTitle,
   deleteTodo,
 } from './todo.js';
 import { display } from './display.js';
@@ -16,6 +17,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateEditTitleParams,
   validateDeleteTodoParams,
 } from './validate.js';
 
@@ -67,6 +69,12 @@ export function createApp(todoStore, args) {
       console.log(todosList);
       break;
     
+    case 'edit-title':
+      const validatedEditParams = validateEditTitleParams(params);
+      editTodoTitle(todoStore, validatedEditParams);
+      display(['Todo title updated successfully'])
+      break;
+
     case 'delete':
       const validatedDeleteParams = validateDeleteTodoParams(params);
       deleteTodo(todoStore, validatedDeleteParams);

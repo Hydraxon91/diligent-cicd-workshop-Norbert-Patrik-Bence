@@ -4,6 +4,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateEditTitleParams,
   validateDeleteTodoParams,
 } from './validate';
 
@@ -155,13 +156,24 @@ describe('validateStatusParam', () => {
   });
 });
 
+describe('validateEditTitleParams', () => {
+  it('should pass and return the original params with a valid status', () => {
+    const params = [1, 'Test'];
+    const expected = [1, 'Test'];
+
+    const validated = validateEditTitleParams(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+});
 
 describe('validateDeleteTodoParams', () => {
   it('should pass and return the original param with a valid status', () => {
     const params = [1];
     const expected = [1];
 
-    const validated = validateDeleteTodoParams(params)
+    const validated = validateDeleteTodoParams(params);
+
     expect(validated).toStrictEqual(expected);
   });
 
@@ -170,7 +182,7 @@ describe('validateDeleteTodoParams', () => {
 
     expect(() => validateDeleteTodoParams(params)).toThrow(AppError);
     expect(() => validateDeleteTodoParams(params)).toThrow(
-      "Give a numeric id as the only parameter in parenthesis."
+      'Give a numeric id as the only parameter in parenthesis.'
     );
   });
 });

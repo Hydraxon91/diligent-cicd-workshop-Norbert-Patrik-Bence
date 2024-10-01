@@ -47,6 +47,19 @@ export function validateStatusParam(params) {
   return statusParam;
 }
 
+export function validateEditTitleParams(params) {
+  if (params.length !== 2) {
+    throw new AppError('Give a numeric id and a title in parenthesis as the params.');
+  }
+  const [id, newTitle] = params;
+
+  // Reusing the validateFindByIdParam and validateAddParams functions
+  validateFindByIdParam([id]);
+  validateAddParams([newTitle]);
+  
+  return params;
+}
+
 export function validateDeleteTodoParams(params) {
   if (params.length !== 1) {
     throw new AppError('Give a numeric id as the only parameter in parenthesis.');

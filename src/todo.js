@@ -70,6 +70,20 @@ export function findByStatus(store, status) {
   return todos.filter((todo) => todo.done === isDone);
 }
 
+export function editTodoTitle(store, params){
+  const [id, newTitle] = params;
+  const todos = store.get();
+  const todoItem = todos.find(todo => todo.id === +id);
+  
+  if (!todoItem) {
+    throw new AppError(`Todo with id: ${id}, is not found!`);
+  }
+
+   todoItem.title = newTitle;
+   store.set(todos);
+   return todoItem;
+}
+
 export function deleteTodo(store, id) {
   const todos = store.get();
   const todoIndex = todos.findIndex((t) => t.id === +id);

@@ -1,6 +1,7 @@
 import { AppError } from './app-error';
 import {
   validateAddParams,
+  validateCompleteTodoParam,
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
@@ -183,6 +184,96 @@ describe('validateDeleteTodoParams', () => {
     expect(() => validateDeleteTodoParams(params)).toThrow(AppError);
     expect(() => validateDeleteTodoParams(params)).toThrow(
       'Give a numeric id as the only parameter in parenthesis.'
+    );
+  });
+});
+
+describe('validateEditTitleParams', () => {
+  it('should pass and return the original params with a valid status', () => {
+    const params = [1, 'Test'];
+    const expected = [1, 'Test'];
+
+    const validated = validateEditTitleParams(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+});
+
+describe('validateDeleteTodoParams', () => {
+  it('should pass and return the original param with a valid status', () => {
+    const params = [1];
+    const expected = [1];
+
+    const validated = validateDeleteTodoParams(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are given', () => {
+    const params = [];
+
+    expect(() => validateDeleteTodoParams(params)).toThrow(AppError);
+    expect(() => validateDeleteTodoParams(params)).toThrow(
+      'Give a numeric id as the only parameter in parenthesis.'
+    );
+  });
+});
+
+describe('validateEditTitleParams', () => {
+  it('should pass and return the original params with a valid status', () => {
+    const params = [1, 'Test'];
+    const expected = [1, 'Test'];
+
+    const validated = validateEditTitleParams(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+});
+
+describe('validateDeleteTodoParams', () => {
+  it('should pass and return the original param with a valid status', () => {
+    const params = [1];
+    const expected = [1];
+
+    const validated = validateDeleteTodoParams(params);
+
+    expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are given', () => {
+    const params = [];
+
+    expect(() => validateDeleteTodoParams(params)).toThrow(AppError);
+    expect(() => validateDeleteTodoParams(params)).toThrow(
+      'Give a numeric id as the only parameter in parenthesis.'
+    );
+  });
+});
+
+describe('validateCompleteTodoParam', () => {
+  it('should pass and return the original params with a valid ID', () => {
+    const params = [1];
+    const expected = [1];
+
+    const validated = validateCompleteTodoParam(params);
+    expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are given', () => {
+    const params = [];
+
+    expect(() => validateCompleteTodoParam(params)).toThrow(AppError);
+    expect(() => validateCompleteTodoParam(params)).toThrow(
+      'Give a numeric id as the only parameter in parenthesis.'
+    );
+  });
+
+  it('should throw an error when params are not an array', () => {
+    const params = 1;
+
+    expect(() => validateCompleteTodoParam(params)).toThrow(AppError);
+    expect(() => validateCompleteTodoParam(params)).toThrow(
+      'Parameters must be passed as an array.'
     );
   });
 });

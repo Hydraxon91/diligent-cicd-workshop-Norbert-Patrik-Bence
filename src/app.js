@@ -3,7 +3,7 @@ import {
   formatList,
   format,
   add,
-  complete,
+  completeTodo,
   findById,
   findByTitle,
   findByStatus,
@@ -14,6 +14,7 @@ import { display } from './display.js';
 import { AppError } from './app-error.js';
 import {
   validateAddParams,
+  validateCompleteTodoParam,
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
@@ -55,11 +56,8 @@ export function createApp(todoStore, args) {
 
     case 'complete':
       const [idParam] = params;
-      const id = Number(idParam);
-      if (isNaN(id)) {
-        throw new AppError('The ID must be a numeric value.');
-      }
-      const completed = complete(todoStore, id);
+      const id = validateCompleteTodoParam(idParam)
+      const completed = completeTodo(todoStore, id);
       display(['Todo completed:', format(completed)]);
       break;
 

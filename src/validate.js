@@ -47,6 +47,22 @@ export function validateStatusParam(params) {
   return statusParam;
 }
 
+export function validateCompleteTodoParam(params) {
+  if (!Array.isArray(params)) {
+    throw new AppError('Parameters must be passed as an array.');
+  }
+
+  const [id] = params;
+
+  if (params.length !== 1) {
+    throw new AppError('Give a numeric id as the only parameter in parenthesis.');
+  }
+
+  validateFindByIdParam([id]); // Pass id as an array for validation
+
+  return params;
+}
+
 export function validateEditTitleParams(params) {
   if (params.length !== 2) {
     throw new AppError('Give a numeric id and a title in parenthesis as the params.');

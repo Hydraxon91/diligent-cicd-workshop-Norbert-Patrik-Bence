@@ -55,9 +55,13 @@ export function findByTitle(store, title) {
   return foundTodo || null;
 }
 
-export function complete(store, id) {
+export function completeTodo(store, id) {
   const todos = store.get();
-  const todo = todos.find((t) => t.id === id);
+  const todo = todos.find((t) => t.id === +id);
+
+  if (!todo) {
+    throw new AppError(`Todo with id: ${id}, is not found!`);
+  }
 
   todo.done = true;
   store.set(todos);

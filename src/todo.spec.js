@@ -8,6 +8,7 @@ import {
   list,
   complete,
   findByStatus,
+  findByLabel,
 } from './todo.js';
 import { AppError } from './app-error.js';
 
@@ -271,5 +272,41 @@ describe('find-by-status', () => {
     const current = findByStatus(mockStore, params);
 
     expect(current).toStrictEqual(expected);
+  });
+});
+
+describe('findByLabel', () => {
+  it('should return todos that contain the specified label', () => {
+    const mockStore = createMockStore([
+      { id: 1, title: 'Todo 1', labels: ['work', 'urgent'] },
+      { id: 2, title: 'Todo 2', labels: ['personal'] },
+      { id: 3, title: 'Todo 3', labels: ['work'] },
+    ]);
+
+    const current = findByLabel(mockStore, 'work');
+
+    expect(current).toStrictEqual([
+      { id: 1, title: 'Todo 1', labels: ['work', 'urgent'] },
+      { id: 3, title: 'Todo 3', labels: ['work'] },
+    ]);
+  });
+
+  it('should return an empty array if no todos have the specified label', () => {
+    const mockStore = createMockStore([
+      { id: 1, title: 'Todo 1', labels: ['work'] },
+      { id: 2, title: 'Todo 2', labels: ['personal'] },
+    ]);
+
+    const current = findByLabel(mockStore, 'urgent');
+
+    expect(current).toStrictEqual([]);
+  });
+
+  it('should return an empty array for an empty store', () => {
+    const mockStore = createMockStore([]);
+
+    const current = findByLabel(mockStore, 'work');
+
+    expect(current).toStrictEqual([]);
   });
 });

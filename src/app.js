@@ -7,6 +7,7 @@ import {
   findById,
   findByTitle,
   findByStatus,
+  findByLabel,
 } from './todo.js';
 import { display } from './display.js';
 import { AppError } from './app-error.js';
@@ -63,6 +64,18 @@ export function createApp(todoStore, args) {
       const validatedStatusParam = validateStatusParam(params);
       const todosList = findByStatus(todoStore, validatedStatusParam);
       console.log(todosList);
+      break;
+
+    case 'find-by-label':
+      const validatedLabelParams = validateFindByLabelParam(params);
+      const [label] = validatedLabelParams;
+      const filteredTodos = findByLabel(todoStore, label);
+
+      if (filteredTodos.length > 0) {
+        display(formatList(filteredTodos));
+      } else {
+        display(['No todos found with that label.']);
+      }
       break;
 
     default:

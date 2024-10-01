@@ -4,6 +4,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateFindByLabelParam
 } from './validate';
 
 describe('validateAddParams', () => {
@@ -151,5 +152,23 @@ describe('validateStatusParam', () => {
     expect(() => validateStatusParam(params)).toThrow(
       "Status have to be 'done' or 'not-done' string!"
     );
+  });
+});
+
+describe('validateFindByLabelParam', () => {
+  it('should throw an error if params length is not equal to 1', () => {
+    expect(() => validateFindByLabelParam([])).toThrow(AppError);
+    expect(() => validateFindByLabelParam(['Label1', 'Label2'])).toThrow(
+      AppError
+    );
+  });
+
+  it('should throw an error if the label is not a string or has zero length', () => {
+    expect(() => validateFindByLabelParam([''])).toThrow(AppError);
+    expect(() => validateFindByLabelParam([123])).toThrow(AppError);
+  });
+
+  it('should not throw an error for valid label', () => {
+    expect(() => validateFindByLabelParam(['Valid Label'])).not.toThrow();
   });
 });

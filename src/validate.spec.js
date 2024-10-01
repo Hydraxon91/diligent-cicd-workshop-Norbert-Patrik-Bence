@@ -4,6 +4,7 @@ import {
   validateFindByIdParam,
   validateFindByTitleParam,
   validateStatusParam,
+  validateDeleteLabelParams,
 } from './validate';
 
 describe('validateAddParams', () => {
@@ -102,7 +103,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 
@@ -111,7 +112,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 
@@ -120,7 +121,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 });
@@ -150,6 +151,62 @@ describe('validateStatusParam', () => {
     expect(() => validateStatusParam(params)).toThrow(AppError);
     expect(() => validateStatusParam(params)).toThrow(
       "Status have to be 'done' or 'not-done' string!"
+    );
+  });
+});
+
+describe('validateDeleteLabelParams', () => {
+  it('should pass with valid id and label', () => {
+    const params = ['1', 'urgent'];
+    const expected = [1, 'urgent'];
+
+    const current = validateDeleteLabelParams(params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are provided', () => {
+    const params = [];
+
+    expect(() => validateDeleteLabelParams(params)).toThrow(AppError);
+    expect(() => validateDeleteLabelParams(params)).toThrow(
+      'Give two parameters: todo ID and label.'
+    );
+  });
+
+  it('should throw an error when only one param is provided', () => {
+    const params = ['1'];
+
+    expect(() => validateDeleteLabelParams(params)).toThrow(AppError);
+    expect(() => validateDeleteLabelParams(params)).toThrow(
+      'Give two parameters: todo ID and label.'
+    );
+  });
+
+  it('should throw an error when id is not a number', () => {
+    const params = ['abc', 'urgent'];
+
+    expect(() => validateDeleteLabelParams(params)).toThrow(AppError);
+    expect(() => validateDeleteLabelParams(params)).toThrow(
+      'The ID must be a numeric value.'
+    );
+  });
+
+  it('should throw an error when label is not a string', () => {
+    const params = ['1', 123];
+
+    expect(() => validateDeleteLabelParams(params)).toThrow(AppError);
+    expect(() => validateDeleteLabelParams(params)).toThrow(
+      'Label must be a non-empty string.'
+    );
+  });
+
+  it('should throw an error when label is an empty string', () => {
+    const params = ['1', ''];
+
+    expect(() => validateDeleteLabelParams(params)).toThrow(AppError);
+    expect(() => validateDeleteLabelParams(params)).toThrow(
+      'Label must be a non-empty string.'
     );
   });
 });

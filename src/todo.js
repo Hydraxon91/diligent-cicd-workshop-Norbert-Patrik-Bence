@@ -69,3 +69,21 @@ export function findByStatus(store, status) {
   const isDone = status === 'done';
   return todos.filter((todo) => todo.done === isDone);
 }
+
+export function deleteLabel(store, todoId, label) {
+  const todos = store.get();
+  const matchingTodoItem = todos.find((t) => t.id === todoId);
+
+  if (!matchingTodoItem) {
+    throw new AppError(`Todo with id: ${todoId} is not found!`);
+  }
+
+  const labelIndex = matchingTodoItem.labels.indexOf(label);
+
+  if (labelIndex !== -1) {
+    matchingTodoItem.labels.splice(labelIndex, 1);
+  }
+
+  store.set(todos);
+  return matchingTodoItem;
+}

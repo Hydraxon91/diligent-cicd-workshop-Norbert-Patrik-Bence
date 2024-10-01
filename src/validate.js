@@ -27,7 +27,7 @@ export function validateFindByTitleParam(params) {
 
   if (typeof title !== 'string' || title.length < 3) {
     throw new AppError(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   }
 
@@ -45,4 +45,22 @@ export function validateStatusParam(params) {
   }
 
   return statusParam;
+}
+
+export function validateDeleteLabelParams(params) {
+  if (params.length !== 2) {
+    throw new AppError('Give two parameters: todo ID and label.');
+  }
+
+  const [id, label] = params;
+
+  if (isNaN(+id)) {
+    throw new AppError('The ID must be a numeric value.');
+  }
+
+  if (typeof label !== 'string' || label.length === 0) {
+    throw new AppError('Label must be a non-empty string.');
+  }
+
+  return [parseInt(id, 10), label];
 }

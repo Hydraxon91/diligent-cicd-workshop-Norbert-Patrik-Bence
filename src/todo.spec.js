@@ -8,6 +8,7 @@ import {
   list,
   complete,
   findByStatus,
+  deleteLabel,
 } from './todo.js';
 import { AppError } from './app-error.js';
 
@@ -271,5 +272,51 @@ describe('find-by-status', () => {
     const current = findByStatus(mockStore, params);
 
     expect(current).toStrictEqual(expected);
+  });
+});
+
+describe('deleteLabel', () => {
+  it('should delete an existing label from a todo', () => {
+    const todos = [
+      { id: 1, title: 'Todo 1', done: false, labels: ['urgent', 'work'] },
+    ];
+    const mockStore = createMockStore(todos);
+    const expected = {
+      id: 1,
+      title: 'Todo 1',
+      done: false,
+      labels: ['work'],
+    };
+
+    const result = deleteLabel(mockStore, 1, 'urgent');
+
+    expect(result).toStrictEqual(expected);
+    expect(mockStore.set.mock.calls[0][0]).toStrictEqual([expected]);
+  });
+
+  it('should not change the todo if the label does not exist', () => {
+    const todos = [{ id: 1, title: 'Todo 1', done: false, labels: ['work'] }];
+    const mockStore = createMockStore(todos);
+    const expected = {
+      id: 1,
+      title: 'Todo 1',
+      done: false,
+      labels: ['work'],
+    };
+
+    const result = deleteLabel(mockStore, 1, 'urgent');
+
+    expect(result).toStrictEqual(expected);
+    expect(mockStore.set.mock.calls[0][0]).toStrictEqual([expected]);
+  });
+
+  it('should throw an error if the todo is not found', () => {
+    const todos = [{ id: 1, title: 'Todo 1', done: false, labels: ['work'] }];
+    const mockStore = createMockStore(todos);
+
+    expect(() => deleteLabel(mockStore, 2, 'urgent')).toThrow(AppError);
+    expect(() => deleteLabel(mockStore, 2, 'urgent')).toThrow(
+      'Todo with id: 2 is not found!'
+    );
   });
 });

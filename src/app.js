@@ -65,6 +65,12 @@ export function createApp(todoStore, args) {
       console.log(todosList);
       break;
 
+    case 'delete-label':
+      const [todoId, label] = validateDeleteLabelParams(params);
+      const updatedTodo = deleteLabel(store, todoId, label);
+      console.log(`Label '${label}' deleted from todo with ID ${todoId}`);
+      break;
+
     default:
       throw new AppError(`Unknown command: ${command}`);
   }

@@ -1,7 +1,7 @@
-import { AppError } from './app-error.js';
+import { AppError } from "./app-error.js";
 
 export function format(todo) {
-  return `${todo.id} - [${todo.done ? 'x' : ' '}] ${todo.title}`;
+  return `${todo.id} - [${todo.done ? "x" : " "}] ${todo.title}`;
 }
 
 export function formatList(todos) {
@@ -27,6 +27,7 @@ export function add(store, params) {
   const newTodo = {
     title,
     done: false,
+    labels: [],
     id: nextId(todos),
   };
   const toStore = [...todos, newTodo];
@@ -70,7 +71,7 @@ export function completeTodo(store, id) {
 
 export function findByStatus(store, status) {
   const todos = store.get();
-  const isDone = status === 'done';
+  const isDone = status === "done";
   return todos.filter((todo) => todo.done === isDone);
 }
 
@@ -98,4 +99,20 @@ export function deleteTodo(store, id) {
 
   todos.splice(todoIndex, 1);
   store.set(todos);
+}
+
+export function addLabel(store, todoId, label) {
+  const todos = store.get();
+  const matchingTodoItem = todos.find((t) => t.id === todoId);
+
+  if (!matchingTodoItem) {
+    throw new AppError(`Todo with id: ${todoId}, is not found!`);
+  }
+
+  if (!matchingTodoItem.labels.includes(label)) {
+    matchingTodoItem.labels.push(label);
+  }
+
+  store.set(todos);
+  return matchingTodoItem;
 }

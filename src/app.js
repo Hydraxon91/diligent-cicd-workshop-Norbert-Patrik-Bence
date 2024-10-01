@@ -9,9 +9,11 @@ import {
   findByStatus,
   editTodoTitle,
   deleteTodo,
-} from './todo.js';
-import { display } from './display.js';
-import { AppError } from './app-error.js';
+  addLabel,
+} from "./todo.js";
+import { display } from "./display.js";
+import { AppError } from "./app-error.js";
+
 import {
   validateAddParams,
   validateCompleteTodoParam,
@@ -20,48 +22,53 @@ import {
   validateStatusParam,
   validateEditTitleParams,
   validateDeleteTodoParams,
+  validateAddLabelParams,
 } from './validate.js';
 
 export function createApp(todoStore, args) {
   const [, , command, ...params] = args;
 
   switch (command) {
-    case 'list':
+    case "list":
       const todos = list(todoStore);
       display([...formatList(todos), `You have ${todos.length} todos.`]);
       break;
 
-    case 'add':
+    case "add":
       const validated = validateAddParams(params);
       const added = add(todoStore, validated);
-      display(['New Todo added:', format(added)]);
+      display(["New Todo added:", format(added)]);
       break;
 
-    case 'find-by-id':
+    case "find-by-id":
       const validatedIdParams = validateFindByIdParam(params);
       const matchingTodoItem = findById(todoStore, validatedIdParams);
-      display(['Find by id: ', format(matchingTodoItem)]);
+      display(["Find by id: ", format(matchingTodoItem)]);
       break;
 
-    case 'find-by-title':
+    case "find-by-title":
       const validatedFindParams = validateFindByTitleParam(params);
       const [searchTitle] = validatedFindParams;
       const foundTodo = findByTitle(todoStore, searchTitle);
       if (foundTodo) {
-        display(['Todo found:', format(foundTodo)]);
+        display(["Todo found:", format(foundTodo)]);
       } else {
-        display(['No todo found with that title.']);
+        display(["No todo found with that title."]);
       }
       break;
 
-    case 'complete':
+    case "complete":
       const [idParam] = params;
-      const id = validateCompleteTodoParam(idParam)
+      const id = validateCompleteTodoParam([Number(idParam)]);
+      if (isNaN(id)) {
+        throw new AppError("The ID must be a numeric value.");
+      }
+      // id = validateCompleteTodoParam(idParam)
       const completed = completeTodo(todoStore, id);
       display(['Todo completed:', format(completed)]);
       break;
 
-    case 'find-by-status':
+    case "find-by-status":
       const validatedStatusParam = validateStatusParam(params);
       const todosList = findByStatus(todoStore, validatedStatusParam);
       console.log(todosList);
@@ -77,6 +84,12 @@ export function createApp(todoStore, args) {
       const validatedDeleteParams = validateDeleteTodoParams(params);
       deleteTodo(todoStore, validatedDeleteParams);
       display(['Deletion completed']);
+      break;
+
+    case "add-label":
+      const [validatedId, validatedLabel] = validateAddLabelParams(params);
+      const updatedTodo = addLabel(todoStore, validatedId, validatedLabel);
+      display(["Label added:", format(updatedTodo)]);
       break;
 
     default:

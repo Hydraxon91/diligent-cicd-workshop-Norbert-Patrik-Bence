@@ -7,6 +7,7 @@ import {
   validateStatusParam,
   validateEditTitleParams,
   validateDeleteTodoParams,
+  validateAddLabelParams
 } from './validate';
 
 describe('validateAddParams', () => {
@@ -105,7 +106,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 
@@ -114,7 +115,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 
@@ -123,7 +124,7 @@ describe('validateFindByTitleParam', () => {
 
     expect(() => validateFindByTitleParam(params)).toThrow(AppError);
     expect(() => validateFindByTitleParam(params)).toThrow(
-      'The title should be string and at least 3 charachter long!'
+      'The title should be string and at least 3 character long!'
     );
   });
 });
@@ -157,6 +158,62 @@ describe('validateStatusParam', () => {
   });
 });
 
+describe('validateAddLabelParams', () => {
+  it('should pass with valid id and label', () => {
+    const params = ['1', 'urgent'];
+    const expected = [1, 'urgent'];
+
+    const current = validateAddLabelParams(params);
+
+    expect(current).toStrictEqual(expected);
+  });
+
+  it('should throw an error when no params are provided', () => {
+    const params = [];
+
+    expect(() => validateAddLabelParams(params)).toThrow(AppError);
+    expect(() => validateAddLabelParams(params)).toThrow(
+      'Give two parameters: todo ID and label.'
+    );
+  });
+
+  it('should throw an error when only one param is provided', () => {
+    const params = ['1'];
+
+    expect(() => validateAddLabelParams(params)).toThrow(AppError);
+    expect(() => validateAddLabelParams(params)).toThrow(
+      'Give two parameters: todo ID and label.'
+    );
+  });
+
+  it('should throw an error when id is not a number', () => {
+    const params = ['abc', 'urgent'];
+
+    expect(() => validateAddLabelParams(params)).toThrow(AppError);
+    expect(() => validateAddLabelParams(params)).toThrow(
+      'The ID must be a numeric value.'
+    );
+  });
+
+  it('should throw an error when label is not a string', () => {
+    const params = ['1', 123];
+
+    expect(() => validateAddLabelParams(params)).toThrow(AppError);
+    expect(() => validateAddLabelParams(params)).toThrow(
+      'Label must be a non-empty string.'
+    );
+  });
+
+  it('should throw an error when label is an empty string', () => {
+    const params = ['1', ''];
+
+    expect(() => validateAddLabelParams(params)).toThrow(AppError);
+    expect(() => validateAddLabelParams(params)).toThrow(
+      'Label must be a non-empty string.'
+    );
+  });
+});
+
 describe('validateEditTitleParams', () => {
   it('should pass and return the original params with a valid status', () => {
     const params = [1, 'Test'];
@@ -165,6 +222,15 @@ describe('validateEditTitleParams', () => {
     const validated = validateEditTitleParams(params);
 
     expect(validated).toStrictEqual(expected);
+  });
+
+  it('should throw AppError if wrong number of params given', () => {
+    const params = [1, 'Test', 1];
+
+    // Expect the function to throw an AppError when the number of params is incorrect
+    expect(() => {
+      validateEditTitleParams(params);
+    }).toThrow(AppError);
   });
 });
 
